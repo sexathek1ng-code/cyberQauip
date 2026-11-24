@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberQauip – Киберқауіпсіздік платформасы</title>
+<style>
+  :root{--bg:#0f172a;--card:#1e293b;--card2:#273449;--text:#e2e8f0;--muted:#94a3b8;--accent:#22d3ee;--accent2:#6366f1;--ok:#22c55e;--bad:#ef4444;--warn:#f59e0b}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+  header{position:sticky;top:0;z-index:10;background:rgba(15,23,42,.95);backdrop-filter:blur(6px);border-bottom:1px solid #334155}
+  .nav{max-width:1000px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;flex-wrap:wrap;gap:8px}
+  .logo{font-weight:800;font-size:1.2rem;color:var(--accent)}
+  .menu{display:flex;gap:6px;flex-wrap:wrap}
+  .menu button{background:none;border:none;color:var(--muted);padding:8px 12px;border-radius:8px;cursor:pointer;font-size:.95rem}
+  .menu button:hover,.menu button.active{background:var(--card);color:var(--text)}
+  main{max-width:1000px;margin:auto;padding:24px 16px 60px}
+  section{display:none}section.active{display:block;animation:fade .3s}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
+  h1{font-size:2rem;margin-bottom:10px}h2{font-size:1.5rem;margin-bottom:14px}h3{margin-bottom:8px}
+  .hero{background:linear-gradient(135deg,#1e293b,#312e81);border-radius:18px;padding:36px 24px;margin-bottom:24px}
+  .hero p{color:#cbd5e1;max-width:620px;margin:10px 0 20px}
+  .card{background:var(--card);border-radius:14px;padding:20px;margin-bottom:16px;border:1px solid #334155}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  .btn{background:linear-gradient(90deg,var(--accent2),var(--accent));color:#fff;border:none;padding:11px 22px;border-radius:10px;font-size:1rem;cursor:pointer;font-weight:600}
+  .btn:hover{opacity:.9}.btn.sec{background:var(--card2);border:1px solid #475569}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  input{width:100%;padding:11px 14px;border-radius:10px;border:1px solid #475569;background:#0f172a;color:var(--text);font-size:1rem;margin-bottom:12px}
+  label{display:block;margin-bottom:4px;color:var(--muted);font-size:.9rem}
+  .form{max-width:420px}
+  .tag{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;background:var(--card2);color:var(--accent)}
+  .progress{height:8px;background:#0f172a;border-radius:99px;overflow:hidden;margin:10px 0 18px}
+  .progress>div{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));width:0;transition:width .3s}
+  .opt{display:block;width:100%;text-align:left;background:var(--card2);border:2px solid transparent;color:var(--text);padding:12px 14px;border-radius:10px;margin-bottom:10px;cursor:pointer;font-size:1rem}
+  .opt:hover:not(:disabled){border-color:var(--accent2)}
+  .opt.correct{border-color:var(--ok);background:rgba(34,197,94,.15)}
+  .opt.wrong{border-color:var(--bad);background:rgba(239,68,68,.15)}
+  .explain{margin-top:10px;padding:12px;border-radius:10px;background:#0f172a;border-left:4px solid var(--accent);color:#cbd5e1}
+  .big{font-size:3rem;font-weight:800}
+  .level-low{color:var(--bad)}.level-mid{color:var(--warn)}.level-high{color:var(--ok)}
+  .bar{margin:10px 0}.bar .row{display:flex;justify-content:space-between;font-size:.92rem;margin-bottom:3px}
+  .bar .track{height:12px;background:#0f172a;border-radius:99px;overflow:hidden}
+  .bar .fill{height:100%;border-radius:99px}
+  .rec{border-left:4px solid var(--warn);padding:10px 14px;background:#0f172a;border-radius:8px;margin-bottom:10px}
+  .rec.good{border-color:var(--ok)}
+  table{width:100%;border-collapse:collapse}th,td{padding:9px;text-align:left;border-bottom:1px solid #334155}
+  .chart{display:flex;align-items:flex-end;gap:10px;height:140px;margin-top:10px}
+  .chart div{flex:1;background:linear-gradient(180deg,var(--accent),var(--accent2));border-radius:6px 6px 0 0;position:relative;min-width:20px}
+  .chart span{position:absolute;top:-20px;left:0;right:0;text-align:center;font-size:.75rem}
+  .muted{color:var(--muted)}.right{text-align:right}
+  details{margin-bottom:10px}summary{cursor:pointer;font-weight:600}
+  ul.clean{padding-left:20px}
+  footer{text-align:center;color:var(--muted);font-size:.85rem;padding:20px}
+  @media(max-width:600px){h1{font-size:1.5rem}.big{font-size:2.2rem}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">🛡️ CyberQauip</div>
+    <nav class="menu" id="menu">
+      <button data-go="home" class="active">Басты бет</button>
+      <button data-go="materials">Оқу материалдары</button>
+      <button data-go="test">Тест</button>
+      <button data-go="results">Нәтиже</button>
+      <button data-go="auth" id="authBtn">Кіру</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- БАСТЫ БЕТ -->
+<section id="home" class="active">
+  <div class="hero">
+    <h1>Интернетті қауіпсіз пайдалан!</h1>
+    <p>Интеллектуалды веб-платформа оқушылардың киберқауіпсіздік деңгейін бағалап, қателеріңді талдап, саған жеке ұсыныстар береді.</p>
+    <button class="btn" onclick="go('test')">Тестті бастау</button>
+    <button class="btn sec" onclick="go('materials')">Материалдарды оқу</button>
+  </div>
+  <div class="grid">
+    <div class="card"><h3>1. Тіркел</h3><p class="muted">Аккаунт жасап, нәтижелеріңді сақта.</p></div>
+    <div class="card"><h3>2. Оқы</h3><p class="muted">Фишинг, құпиясөз, вирус, кибербуллинг туралы қысқа материалдар.</p></div>
+    <div class="card"><h3>3. Тест тапсыр</h3><p class="muted">20 сұрақ, 5 тақырып. Жауаптар автоматты тексеріледі.</p></div>
+    <div class="card"><h3>4. Талдау</h3><p class="muted">Жүйе әлсіз тақырыптарыңды анықтап, ұсыныс береді.</p></div>
+  </div>
+</section>
+
+<!-- КІРУ / ТІРКЕЛУ -->
+<section id="auth">
+  <h2>Тіркелу / Кіру</h2>
+  <div class="card form" id="authForm">
+    <label>Аты-жөні</label><input id="uName" placeholder="Мысалы: Әлімбек Серғазы">
+    <label>Сынып</label><input id="uClass" placeholder="Мысалы: 10 «А»">
+    <label>Құпиясөз</label><input id="uPass" type="password" placeholder="Кемінде 6 таңба">
+    <div style="display:flex;gap:10px">
+      <button class="btn" onclick="register()">Тіркелу</button>
+      <button class="btn sec" onclick="login()">Кіру</button>
+    </div>
+    <p id="authMsg" class="muted" style="margin-top:12px"></p>
+  </div>
+  <div class="card form" id="profile" style="display:none">
+    <h3 id="profName"></h3><p class="muted" id="profClass"></p><br>
+    <button class="btn sec" onclick="logout()">Шығу</button>
+  </div>
+  <p class="muted">Ескерту: деректер тек осы құрылғының браузерінде сақталады. Құпиясөз хэш түрінде сақталады.</p>
+</section>
+
+<!-- МАТЕРИАЛДАР -->
+<section id="materials">
+  <h2>Оқу материалдары</h2>
+  <div id="matList"></div>
+</section>
+
+<!-- ТЕСТ -->
+<section id="test">
+  <h2>Киберқауіпсіздік тесті</h2>
+  <div id="testStart" class="card">
+    <p>Тест 20 сұрақтан тұрады. Әр сұраққа жауап бергеннен кейін дұрыс жауап пен түсініктеме көрсетіледі.</p><br>
+    <button class="btn" onclick="startTest()">Бастау</button>
+  </div>
+  <div id="testBox" style="display:none">
+    <div class="muted" id="qCount"></div>
+    <div class="progress"><div id="pBar"></div></div>
+    <div class="card">
+      <span class="tag" id="qTopic"></span>
+      <h3 id="qText" style="margin:10px 0 14px"></h3>
+      <div id="qOpts"></div>
+      <div id="qExp"></div>
+      <div class="right" style="margin-top:14px"><button class="btn" id="nextBtn" disabled onclick="nextQ()">Келесі →</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- НӘТИЖЕ -->
+<section id="results">
+  <h2>Менің нәтижем</h2>
+  <div id="resBox"><div class="card muted">Нәтиже әлі жоқ. Алдымен тест тапсырыңыз.</div></div>
+</section>
+
+</main>
+<footer>© 2026 CyberQauip · Ғылыми жоба: Әлімбек Серғазы · Жетекші: Жүзбаев Арман · Сарыағаш ауданы №4 мамандандырылған мектеп-интернаты</footer>
+
+<script>
+/* ---------- Деректер ---------- */
+const TOPICS = {
+  pass:  {name:"Құпиясөз қауіпсіздігі", icon:"🔑"},
+  phish: {name:"Фишинг",                icon:"🎣"},
+  data:  {name:"Жеке ақпаратты қорғау", icon:"🪪"},
+  virus: {name:"Вирустар және сілтемелер", icon:"🦠"},
+  bully: {name:"Кибербуллинг",          icon:"💬"}
+};
+
+const MATERIALS = {
+  pass:["Күрделі құпиясөз кемінде 12 таңбадан тұрып, бас/кіші әріп, сан және символдан құралады.",
+        "Құпиясөзді ешкімге айтпаңыз, әр аккаунтқа бөлек құпиясөз қолданыңыз.",
+        "Екі факторлы тексеруді (2FA) қосыңыз – бұл аккаунтты қосымша қорғайды.",
+        "Туған күн, есім, 12345, qwerty секілді оңай болжанатын сөздерді қолданбаңыз."],
+  phish:["Фишинг – алаяқтардың жалған хабарлама немесе сайт арқылы құпиясөз, карта деректерін ұрлауы.",
+         "Белгілері: асығыс талап («аккаунтыңыз бұғатталады!»), қатесі бар мекенжай, күмәнді сілтеме.",
+         "Күмәнді хабарламадағы сілтемені баспаңыз – ресми сайтқа өзіңіз жазып кіріңіз.",
+         "SMS-код, CVV және карта деректерін ешкімге, тіпті «банк қызметкеріне» де айтпаңыз."],
+  data:["Жеке ақпаратқа ЖСН, телефон, үй мекенжайы, суреттер, мектеп пен сынып жатады.",
+        "Әлеуметтік желіде мекенжай мен жеке құжаттарды жарияламаңыз, профиль құпиялылығын баптаңыз.",
+        "Бейтаныс адамға жеке сурет немесе мәлімет жібермеңіз, көмекке үлкендерді шақырыңыз.",
+        "Ашық Wi-Fi желісінде банк қосымшасына және маңызды аккаунттарға кірмеңіз."],
+  virus:["Вирус пен зиянды бағдарлама белгісіз файлдар мен күмәнді сайттар арқылы түседі.",
+         "Лицензиясыз «бұзылған» бағдарламаларда зиянды код жиі болады.",
+         "Антивирусты және операциялық жүйені үнемі жаңартып отырыңыз.",
+         "Бейтаныс адам жіберген сілтемені немесе файлды ашпаңыз."],
+  bully:["Кибербуллинг – интернет арқылы қорлау, мазақтау, қорқыту.",
+         "Қорланған болсаңыз: жауап қайтармаңыз, скриншот сақтаңыз, адамды бұғаттаңыз, үлкендерге айтыңыз.",
+         "Басқаны қорлайтын хабарламаны таратпаңыз, шағымданыңыз.",
+         "Интернетте де нақты өмірдегідей әдепті болыңыз."]
+};
+
+/* [тақырып, сұрақ, [нұсқалар], дұрыс индекс, түсініктеме] */
+const QUESTIONS = [
+ ["pass","Қай құпиясөз ең қауіпсіз?",["12345678","aizhan2010","T7#kLp9!vQ2m","qwerty"],2,"Ұзын, символ, сан және әріптер араласқан құпиясөз болжауға қиын."],
+ ["pass","Құпиясөзді кімге айтуға болады?",["Жақын досыма","Ешкімге","Сыныптасыма","Әлеуметтік желіде жариялауға"],1,"Құпиясөз – тек өзіңе тиесілі, оны ешкімге айтуға болмайды."],
+ ["pass","Барлық аккаунтқа бірдей құпиясөз қолдану қалай?",["Ыңғайлы әрі қауіпсіз","Қауіпті: біреуі бұзылса, бәрі бұзылады","Еш айырмасы жоқ","Тек ойындарға қауіпті"],1,"Әр аккаунтқа бөлек құпиясөз қою керек."],
+ ["pass","Екі факторлы тексеру не береді?",["Интернетті жылдамдатады","Аккаунтты қосымша қорғайды","Құпиясөзді жояды","Жарнаманы өшіреді"],1,"Құпиясөз білінсе де, қосымша код болмай аккаунтқа кіру мүмкін емес."],
+
+ ["phish","Фишинг дегеніміз не?",["Балық аулау ойыны","Жалған хабарлама/сайт арқылы мәлімет ұрлау","Антивирус түрі","Wi-Fi жылдамдығы"],1,"Фишинг – алаяқтардың жеке мәліметті алдап алу әдісі."],
+ ["phish","«Аккаунтыңыз бұғатталды, сілтемеге кіріңіз» деген хабарлама келсе не істейсің?",["Бірден сілтемеге кіремін","Ресми сайтқа өзім жазып кіріп тексеремін","Құпиясөзімді жіберемін","Достарыма жібере саламын"],1,"Сілтемеге емес, ресми сайтқа тікелей кіріп тексеру керек."],
+ ["phish","Жалған сайттың белгісі қайсы?",["Мекенжайында қате әріптер, күмәнді домен","Бет жылдам ашылады","Дизайны әдемі","Түсі көк"],0,"Мекенжайды (доменді) мұқият тексеріңіз: жалған сайттар ресми атауға ұқсатып жасалады."],
+ ["phish","SMS-код пен карта CVV-кодын кімге айтуға болады?",["Банк қызметкеріне","Ешкімге","Сенімді адамға","Чатқа жазуға болады"],1,"Банк қызметкері де бұл кодтарды сұрамайды."],
+
+ ["data","Қайсысы жеке ақпаратқа жатады?",["Үй мекенжайы, телефон, ЖСН","Ауа райы","Ресми жаңалық","Ойынның атауы"],0,"Мекенжай, телефон, ЖСН – жеке мәліметтер."],
+ ["data","Әлеуметтік желіге үйіңнің мекенжайын жариялау қалай?",["Қауіпсіз","Қауіпті","Міндетті","Пайдалы"],1,"Мекенжайды бөтен адамдар біліп алуы мүмкін."],
+ ["data","Бейтаныс адам суретіңді жіберуді сұраса не істейсің?",["Жіберемін","Бас тартып, үлкендерге айтамын","Достарымның суретін жіберемін","Не сұрайтынын тексермей жіберемін"],1,"Бейтаныс адамға сурет жібермеңіз, үлкендерге хабарлаңыз."],
+ ["data","Ашық (қоғамдық) Wi-Fi желісінде не істемеген жөн?",["Жаңалық оқу","Банк қосымшасына кіру, құпиясөз енгізу","Музыка тыңдау","Сағат қарау"],1,"Ашық желіде деректеріңді ұрлап алу мүмкін."],
+
+ ["virus","Белгісіз файлды жүктеу қалай?",["Қауіпті, вирус болуы мүмкін","Әрдайым қауіпсіз","Түнде ғана қауіпті","Ешқандай қауіп жоқ"],0,"Белгісіз файлдың ішінде зиянды бағдарлама болуы мүмкін."],
+ ["virus","Вирустан қорғану үшін не істеу керек?",["Антивирус орнатып, жүйені жаңарту","Ештеңе істемеу","Барлық сайтқа кіру","Жаңартуларды өшіру"],0,"Антивирус пен жаңартулар қорғаныстың негізі."],
+ ["virus","Бейтаныс адам жіберген сілтемені ашуға бола ма?",["Иә, әрқашан","Жоқ, алдымен тексеру керек","Тек түнде","Тек телефонда"],1,"Бейтаныс сілтеме зиянды сайтқа апаруы мүмкін."],
+ ["virus","Лицензиясыз «бұзылған» бағдарлама туралы қайсысы дұрыс?",["Құрамында зиянды код болуы мүмкін","Әрқашан таза","Антивирус керек емес","Тегін, сондықтан қауіпсіз"],0,"Мұндай бағдарламаларға жиі вирус жасырылады."],
+
+ ["bully","Кибербуллинг дегеніміз не?",["Интернет арқылы қорлау, мазақтау","Онлайн ойын","Жаңа бағдарлама","Вирус түрі"],0,"Кибербуллинг – интернеттегі қорлау және қысым көрсету."],
+ ["bully","Интернетте сені қорласа, не істейсің?",["Сондай жауап қайтарамын","Скриншот сақтап, бұғаттап, үлкендерге айтамын","Ешкімге айтпаймын","Аккаунтымды қалдырып кетемін"],1,"Дәлел сақтап, адамды бұғаттап, ересектерге айту дұрыс."],
+ ["bully","Интернетте қалай сөйлесу керек?",["Әдепті, құрметпен","Қорлап","Жалған атпен ренжітіп","Кез келген сөзді қолданып"],0,"Желіде де құрметпен сөйлесу керек."],
+ ["bully","Біреуді қорлайтын хабарламаны көрсең не істейсің?",["Таратамын","Таратпай, шағымданып, үлкендерге айтамын","Күлемін","Лайк басамын"],1,"Қорлауға қатыспай, шағымдану керек."]
+];
+
+/* ---------- Көмекші функциялар ---------- */
+const $ = id => document.getElementById(id);
+const store = {
+  get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+};
+const esc = s => String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+async function hash(s){
+  try{
+    const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));
+    return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");
+  }catch(e){return btoa(unescape(encodeURIComponent(s)))}
+}
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+/* ---------- Навигация ---------- */
+function go(id){
+  document.querySelectorAll("section").forEach(s=>s.classList.toggle("active",s.id===id));
+  document.querySelectorAll("#menu button").forEach(b=>b.classList.toggle("active",b.dataset.go===id));
+  if(id==="results")renderResults();
+  window.scrollTo(0,0);
+}
+document.querySelectorAll("#menu button").forEach(b=>b.onclick=()=>go(b.dataset.go));
+
+/* ---------- Аккаунт ---------- */
+let currentUser = store.get("cq_current",null);
+function refreshAuth(){
+  $("authBtn").textContent = currentUser ? "👤 "+currentUser.name.split(" ")[0] : "Кіру";
+  $("authForm").style.display = currentUser?"none":"block";
+  $("profile").style.display = currentUser?"block":"none";
+  if(currentUser){$("profName").textContent=currentUser.name;$("profClass").textContent="Сынып: "+currentUser.cls}
+}
+async function register(){
+  const name=$("uName").value.trim(),cls=$("uClass").value.trim(),pass=$("uPass").value;
+  if(!name||!cls||pass.length<6){$("authMsg").textContent="Барлық өрісті толтырыңыз, құпиясөз кемінде 6 таңба болсын.";return}
+  const users=store.get("cq_users",{});
+  const key=name.toLowerCase();
+  if(users[key]){$("authMsg").textContent="Бұл есіммен аккаунт бар. «Кіру» батырмасын басыңыз.";return}
+  users[key]={name,cls,h:await hash(pass)};
+  store.set("cq_users",users);
+  currentUser={name,cls,key};store.set("cq_current",currentUser);
+  $("authMsg").textContent="";refreshAuth();go("materials");
+}
+async function login(){
+  const name=$("uName").value.trim(),pass=$("uPass").value;
+  const users=store.get("cq_users",{}),u=users[name.toLowerCase()];
+  if(!u||u.h!==await hash(pass)){$("authMsg").textContent="Аты-жөні немесе құпиясөз қате.";return}
+  currentUser={name:u.name,cls:u.cls,key:name.toLowerCase()};store.set("cq_current",currentUser);
+  $("authMsg").textContent="";refreshAuth();go("home");
+}
+function logout(){currentUser=null;store.set("cq_current",null);refreshAuth();go("home")}
+
+/* ---------- Материалдар ---------- */
+$("matList").innerHTML = Object.entries(MATERIALS).map(([k,items])=>
+  `<details class="card" id="mat-${k}"><summary>${TOPICS[k].icon} ${TOPICS[k].name}</summary><ul class="clean" style="margin-top:10px">${items.map(i=>`<li>${i}</li>`).join("")}</ul></details>`).join("");
+
+/* ---------- Тест ---------- */
+let quiz=[],qi=0,answers=[];
+function startTest(){
+  if(!currentUser){alert("Алдымен тіркеліңіз немесе жүйеге кіріңіз.");go("auth");return}
+  quiz=shuffle(QUESTIONS).map(q=>{
+    const correctText=q[2][q[3]];
+    return {topic:q[0],text:q[1],opts:shuffle(q[2]),correct:correctText,exp:q[4]};
+  });
+  qi=0;answers=[];
+  $("testStart").style.display="none";$("testBox").style.display="block";
+  showQ();
+}
+function showQ(){
+  const q=quiz[qi];
+  $("qCount").textContent=`Сұрақ ${qi+1} / ${quiz.length}`;
+  $("pBar").style.width=(qi/quiz.length*100)+"%";
+  $("qTopic").textContent=TOPICS[q.topic].icon+" "+TOPICS[q.topic].name;
+  $("qText").textContent=q.text;
+  $("qExp").innerHTML="";$("nextBtn").disabled=true;
+  $("nextBtn").textContent=qi===quiz.length-1?"Аяқтау ✓":"Келесі →";
+  $("qOpts").innerHTML="";
+  q.opts.forEach(o=>{
+    const b=document.createElement("button");b.className="opt";b.textContent=o;
+    b.onclick=()=>choose(b,o);$("qOpts").appendChild(b);
+  });
+}
+function choose(btn,val){
+  const q=quiz[qi],ok=val===q.correct;
+  answers.push({topic:q.topic,ok});
+  document.querySelectorAll("#qOpts .opt").forEach(b=>{
+    b.disabled=true;
+    if(b.textContent===q.correct)b.classList.add("correct");
+  });
+  if(!ok)btn.classList.add("wrong");
+  $("qExp").innerHTML=`<div class="explain">${ok?"✅ Дұрыс!":"❌ Қате."} Дұрыс жауап: <b>${esc(q.correct)}</b><br>${esc(q.exp)}</div>`;
+  $("nextBtn").disabled=false;
+}
+function nextQ(){
+  if(qi<quiz.length-1){qi++;showQ()}else finishTest();
+}
+function finishTest(){
+  const byTopic={};
+  Object.keys(TOPICS).forEach(k=>byTopic[k]={ok:0,total:0});
+  answers.forEach(a=>{byTopic[a.topic].total++;if(a.ok)byTopic[a.topic].ok++});
+  const correct=answers.filter(a=>a.ok).length;
+  const attempt={date:new Date().toISOString(),correct,total:answers.length,percent:Math.round(correct/answers.length*100),byTopic};
+  const all=store.get("cq_results",{});
+  (all[currentUser.key]=all[currentUser.key]||[]).push(attempt);
+  store.set("cq_results",all);
+  $("testBox").style.display="none";$("testStart").style.display="block";
+  go("results");
+}
+
+/* ---------- Нәтиже және талдау ---------- */
+function levelOf(p){
+  if(p>=80)return{t:"Жоғары",c:"level-high"};
+  if(p>=50)return{t:"Орташа",c:"level-mid"};
+  return{t:"Төмен",c:"level-low"};
+}
+function colorOf(p){return p>=80?"var(--ok)":p>=50?"var(--warn)":"var(--bad)"}
+
+/* Бейімделгіш талдау: тақырып бойынша нәтижеге қарай жеке ұсыныс құрады */
+function analyze(att){
+  const recs=[];
+  const sorted=Object.entries(att.byTopic).map(([k,v])=>({k,p:v.total?Math.round(v.ok/v.total*100):0})).sort((a,b)=>a.p-b.p);
+  sorted.forEach(t=>{
+    const name=TOPICS[t.k].name;
+    if(t.p<50)recs.push({good:false,html:`<b>${TOPICS[t.k].icon} ${name}</b> (${t.p}%) – әлсіз тақырып. Материалды қайта оқып шығыңыз: <a href="#" style="color:var(--accent)" onclick="openMat('${t.k}');return false">материалға өту</a>. Содан кейін тестті қайта тапсырыңыз.`});
+    else if(t.p<80)recs.push({good:false,html:`<b>${TOPICS[t.k].icon} ${name}</b> (${t.p}%) – жақсы, бірақ жетілдіруге болады. Қателескен сұрақтардың түсініктемелерін қайталаңыз.`});
+    else recs.push({good:true,html:`<b>${TOPICS[t.k].icon} ${name}</b> (${t.p}%) – тамаша меңгерілген!`});
+  });
+  const weakest=sorted[0];
+  if(weakest.p<80)recs.unshift({good:false,html:`🎯 <b>Басты назар:</b> «${TOPICS[weakest.k].name}» тақырыбына. Практикалық тапсырма: осы тақырып бойынша өз ережелеріңізді 3 сөйлеммен жазып көріңіз.`});
+  return recs;
+}
+function openMat(k){go("materials");const d=$("mat-"+k);if(d){d.open=true;d.scrollIntoView({behavior:"smooth"})}}
+
+function renderResults(){
+  if(!currentUser){$("resBox").innerHTML='<div class="card muted">Нәтижені көру үшін жүйеге кіріңіз.</div>';return}
+  const list=(store.get("cq_results",{})[currentUser.key])||[];
+  if(!list.length){$("resBox").innerHTML='<div class="card muted">Нәтиже әлі жоқ. Алдымен тест тапсырыңыз.</div>';return}
+  const last=list[list.length-1],lv=levelOf(last.percent);
+  let html=`<div class="card"><div class="muted">${esc(currentUser.name)} · ${new Date(last.date).toLocaleString("kk-KZ")}</div>
+    <div class="big ${lv.c}">${last.percent}%</div>
+    <p>Дұрыс жауап: <b>${last.correct}</b> / ${last.total} · Қате: <b>${last.total-last.correct}</b></p>
+    <p>Киберқауіпсіздік деңгейі: <b class="${lv.c}">${lv.t}</b></p></div>`;
+  html+=`<div class="card"><h3>Тақырыптар бойынша</h3>`+Object.entries(last.byTopic).map(([k,v])=>{
+    const p=v.total?Math.round(v.ok/v.total*100):0;
+    return `<div class="bar"><div class="row"><span>${TOPICS[k].icon} ${TOPICS[k].name}</span><span>${v.ok}/${v.total} (${p}%)</span></div><div class="track"><div class="fill" style="width:${p}%;background:${colorOf(p)}"></div></div></div>`}).join("")+`</div>`;
+  html+=`<div class="card"><h3>🤖 Жеке ұсыныстар</h3>`+analyze(last).map(r=>`<div class="rec ${r.good?"good":""}">${r.html}</div>`).join("")+`</div>`;
+  if(list.length>1){
+    html+=`<div class="card"><h3>Нәтижелер динамикасы</h3><div class="chart" style="padding-top:24px">`+
+      list.slice(-8).map(a=>`<div style="height:${Math.max(a.percent,4)}%"><span>${a.percent}%</span></div>`).join("")+`</div>
+      <table style="margin-top:14px"><tr><th>№</th><th>Күні</th><th>Нәтиже</th><th>Деңгей</th></tr>`+
+      list.map((a,i)=>`<tr><td>${i+1}</td><td>${new Date(a.date).toLocaleDateString("kk-KZ")}</td><td>${a.percent}%</td><td>${levelOf(a.percent).t}</td></tr>`).join("")+`</table>`;
+    const diff=last.percent-list[0].percent;
+    html+=`<p style="margin-top:12px">${diff>0?`📈 Бірінші тестпен салыстырғанда нәтиже <b>+${diff}%</b> артты!`:diff<0?`Бірінші тестке қарағанда нәтиже ${diff}%. Материалдарды қайта қарап шығыңыз.`:"Нәтиже өзгерген жоқ."}</p></div>`;
+  }
+  html+=`<button class="btn" onclick="go('test')">Тестті қайта тапсыру</button>`;
+  $("resBox").innerHTML=html;
+}
+
+refreshAuth();
+</script>
+</body>
+</html>
